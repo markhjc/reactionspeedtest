@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaction Speed Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #f0f4ff 0%, #e9efff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #1a237e;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .rules {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .rules h2 {
+            color: #303f9f;
+            margin-bottom: 15px;
+        }
+
+        .rules ul {
+            list-style-position: inside;
+            color: #555;
+        }
+
+        .rules li {
+            margin-bottom: 10px;
+        }
+
+        .game-area {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .target {
+            width: 60px;
+            height: 60px;
+            background: #3f51b5;
+            border-radius: 50%;
+            position: absolute;
+            cursor: pointer;
+            transition: transform 0.1s;
+            display: none;
+        }
+
+        .target:hover {
+            transform: scale(1.1);
+        }
+
+        .stats {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .button {
+            background: #3f51b5;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .button:hover {
+            background: #303f9f;
+        }
+
+        .result-screen {
+            text-align: center;
+            display: none;
+        }
+
+        .result-screen h2 {
+            color: #303f9f;
+            margin-bottom: 20px;
+        }
+
+        .score {
+            font-size: 2em;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+
+        .rank {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .rank-S { color: #9c27b0; }
+        .rank-A { color: #f44336; }
+        .rank-B { color: #2196f3; }
+        .rank-C { color: #4caf50; }
+        .rank-D { color: #9e9e9e; }
+
+        @keyframes targetPop {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        .target.pop {
+            animation: targetPop 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Reaction Speed Test</h1>
+        </div>
+
+        <div class="rules" id="rulesScreen">
+            <h2>Game Rules</h2>
+            <ul>
+                <li>Click the blue circles as quickly as possible when they appear</li>
+                <li>You have 30 seconds to get as many clicks as possible</li>
+                <li>The faster you click, the higher your score</li>
+                <li>Try to achieve the highest rank (S, A, B, C, D)</li>
+            </ul>
+            <br>
+            <button class="button" onclick="startGame()">Start Game</button>
+        </div>
+
+        <div class="game-area" id="gameArea">
+            <div class="target" id="target"></div>
+        </div>
+
+        <div class="stats" id="stats">
+            Score: <span id="score">0</span> | 
+            Time: <span id="time">30</span>s
+        </div>
+
+        <div class="result-screen" id="resultScreen">
+            <h2>Game Over!</h2>
+            <div class="score">Score: <span id="finalScore">0</span></div>
+            <div class="score">Average Reaction Time: <span id="avgReactionTime">0</span>ms</div>
+            <div class="rank" id="rankDisplay">S</div>
+            <div id="rankMessage"></div>
+            <br>
+            <button class="button" onclick="resetGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const gameArea = document.getElementById('gameArea');
+        const target = document.getElementById('target');
+        const rulesScreen = document.getElementById('rulesScreen');
+        const resultScreen = document.getElementById('resultScreen');
+        const stats = document.getElementById('stats');
+        const scoreDisplay = document.getElementById('score');
+        const timeDisplay = document.getElementById('time');
+        const finalScoreDisplay = document.getElementById('finalScore');
+        const avgReactionTimeDisplay = document.getElementById('avgReactionTime');
+        const rankDisplay = document.getElementById('rankDisplay');
+        const rankMessage = document.getElementById('rankMessage');
+
+        let score = 0;
+        let timeLeft = 30;
+        let gameInterval;
+        let targetAppearTime;
+        let reactionTimes = [];
+        let gameActive = false;
+
+        function startGame() {
+            rulesScreen.style.display = 'none';
+            stats.style.display = 'block';
+            resultScreen.style.display = 'none';
+            score = 0;
+            timeLeft = 30;
+            reactionTimes = [];
+            gameActive = true;
+            updateScore();
+            updateTime();
+            spawnTarget();
+            
+            gameInterval = setInterval(() => {
+                timeLeft--;
+                updateTime();
+                if (timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function spawnTarget() {
+            const maxX = gameArea.clientWidth - 60;
+            const maxY = gameArea.clientHeight - 60;
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+
+            target.style.left = x + 'px';
+            target.style.top = y + 'px';
+            target.style.display = 'block';
+            target.classList.add('pop');
+            targetAppearTime = Date.now();
+
+            setTimeout(() => {
+                target.classList.remove('pop');
+            }, 300);
+        }
+
+        target.addEventListener('click', () => {
+            if (!gameActive) return;
+
+            const reactionTime = Date.now() - targetAppearTime;
+            reactionTimes.push(reactionTime);
+            score++;
+            updateScore();
+            target.style.display = 'none';
+            setTimeout(spawnTarget, Math.random() * 500 + 200);
+        });
+
+        function updateScore() {
+            scoreDisplay.textContent = score;
+        }
+
+        function updateTime() {
+            timeDisplay.textContent = timeLeft;
+        }
+
+        function getRank(score, avgReactionTime) {
+            if (score >= 45 && avgReactionTime < 500) return ['S', 'Superhuman reflexes! Professional level!'];
+            if (score >= 35 || avgReactionTime < 600) return ['A', 'Amazing! Your reaction speed is exceptional!'];
+            if (score >= 25 || avgReactionTime < 700) return ['B', 'Great score! Keep it up!'];
+            if (score >= 15 || avgReactionTime < 800) return ['C', 'Good foundation, room for improvement.'];
+            return ['D', 'Practice makes perfect!'];
+        }
+
+        function endGame() {
+            clearInterval(gameInterval);
+            gameActive = false;
+            target.style.display = 'none';
+            stats.style.display = 'none';
+            
+            const avgReactionTime = Math.round(reactionTimes.reduce((a, b) => a + b, 0) / reactionTimes.length);
+            const [rank, message] = getRank(score, avgReactionTime);
+
+            finalScoreDisplay.textContent = score;
+            avgReactionTimeDisplay.textContent = avgReactionTime;
+            rankDisplay.textContent = rank;
+            rankDisplay.className = 'rank rank-' + rank;
+            rankMessage.textContent = message;
+
+            resultScreen.style.display = 'block';
+        }
+
+        function resetGame() {
+            resultScreen.style.display = 'none';
+            startGame();
+        }
+
+        // Ensure game area is fullscreen
+        function resizeGameArea() {
+            const viewportHeight = window.innerHeight;
+            const headerHeight = document.querySelector('.header').offsetHeight;
+            const padding = 40; // Total vertical padding
+            gameArea.style.height = (viewportHeight - headerHeight - padding) + 'px';
+        }
+
+        window.addEventListener('resize', resizeGameArea);
+        resizeGameArea();
+    </script>
+</body>
+</html>

@@ -4,8 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reaction Speed Test - Test Your Reflexes Online | ReactionSpeedTest.com</title>
-    <meta name="description" content="Test your reaction speed with our free online game. Measure your reflexes, improve your response time, and challenge your friends. Real-time results and ranking system.">
-    <meta name="keywords" content="reaction speed test, reflex test, reaction time, online game, reaction testing, speed reaction game">
+    <meta name="description" content="Measure your reaction time with our free online speed test game. Get instant results, compete globally, and track your improvement. Perfect for gamers and athletes.">
+    <meta name="keywords" content="reaction speed test, reaction time test, reflex test, online reaction game, gaming reaction test">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="Reaction Speed Test - Online Reflex Testing Game">
+    <meta property="og:description" content="Test your reaction speed with our free online game. Measure your reflexes and compare with others worldwide.">
+    <meta property="og:url" content="https://reactionspeedtest.com">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Reaction Speed Test">
+    <meta name="twitter:description" content="Test your reaction speed online. Free, accurate, and fun!">
+
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
     <style>
         /* Modern CSS Reset */
         *, *::before, *::after {
@@ -14,23 +29,34 @@
             box-sizing: border-box;
         }
 
-        /* Custom Properties */
         :root {
-            --color-primary: #4f46e5;
-            --color-primary-dark: #4338ca;
-            --color-secondary: #06b6d4;
-            --color-text: #1f2937;
-            --color-text-light: #4b5563;
-            --color-background: #ffffff;
-            --color-background-alt: #f9fafb;
-            --gradient-primary: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+            /* Color System */
+            --primary: #4f46e5;
+            --primary-dark: #4338ca;
+            --secondary: #06b6d4;
+            --accent: #f472b6;
+            --background: #ffffff;
+            --background-alt: #f8fafc;
+            --text: #0f172a;
+            --text-light: #475569;
+            
+            /* Spacing System */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 4rem;
+            --space-xl: 8rem;
+            
+            /* Container Widths */
+            --container-width: 1200px;
+            --container-padding: 2rem;
         }
 
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             line-height: 1.6;
-            color: var(--color-text);
-            overflow-x: hidden;
+            color: var(--text);
+            background-color: var(--background);
         }
 
         /* Navigation */
@@ -38,15 +64,15 @@
             position: fixed;
             top: 0;
             width: 100%;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
-            padding: 1rem;
             z-index: 1000;
             border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: var(--space-sm) var(--container-padding);
         }
 
         .nav-container {
-            max-width: 1200px;
+            max-width: var(--container-width);
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
@@ -56,89 +82,89 @@
         .logo {
             font-size: 1.5rem;
             font-weight: 700;
-            color: var(--color-primary);
+            color: var(--primary);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         /* Hero Section */
         .hero {
-            background: var(--gradient-primary);
+            padding: var(--space-xl) var(--container-padding) var(--space-lg);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 8rem 2rem 4rem;
             text-align: center;
+            margin-top: 60px;
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 800;
-            margin-bottom: 1rem;
             line-height: 1.2;
+            margin-bottom: var(--space-sm);
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: clamp(1rem, 2vw, 1.25rem);
             max-width: 600px;
-            margin: 0 auto 2rem;
+            margin: 0 auto;
             opacity: 0.9;
         }
 
         /* Game Container */
+        .game-section {
+            background: var(--background-alt);
+            padding: var(--space-md) var(--container-padding);
+        }
+
         .game-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+            max-width: var(--container-width);
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
         }
 
         .game-frame {
             width: 100%;
             height: 600px;
             border: none;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            display: block;
         }
 
         /* Content Sections */
         .section {
-            padding: 4rem 2rem;
-        }
-
-        .section-alt {
-            background: var(--color-background-alt);
+            padding: var(--space-lg) var(--container-padding);
         }
 
         .section-container {
-            max-width: 1200px;
+            max-width: var(--container-width);
             margin: 0 auto;
         }
 
         .section h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            margin-bottom: 2rem;
-            color: var(--color-primary);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
             text-align: center;
+            color: var(--primary);
+            margin-bottom: var(--space-lg);
         }
 
-        .section h3 {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin: 2rem 0 1rem;
-            color: var(--color-text);
-        }
-
+        /* Feature Grid */
         .feature-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
         }
 
         .feature-card {
             background: white;
-            padding: 2rem;
+            padding: var(--space-md);
             border-radius: 12px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            transition: transform 0.2s ease;
         }
 
         .feature-card:hover {
@@ -146,31 +172,47 @@
         }
 
         .feature-card h3 {
-            color: var(--color-primary);
-            margin-bottom: 1rem;
+            color: var(--primary);
+            margin-bottom: var(--space-sm);
+            font-size: 1.25rem;
         }
 
-        /* Rankings Section */
+        /* Rankings */
         .rankings {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            gap: var(--space-md);
+            margin-top: var(--space-lg);
         }
 
         .rank-card {
             background: white;
-            padding: 1.5rem;
-            border-radius: 8px;
+            padding: var(--space-md);
+            border-radius: 12px;
             text-align: center;
-            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
         }
 
-        .rank-s { border-color: #9333ea; }
-        .rank-a { border-color: #dc2626; }
-        .rank-b { border-color: #2563eb; }
-        .rank-c { border-color: #16a34a; }
-        .rank-d { border-color: #6b7280; }
+        .rank-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .rank-s::before { background: #9333ea; }
+        .rank-a::before { background: #dc2626; }
+        .rank-b::before { background: #2563eb; }
+        .rank-c::before { background: #16a34a; }
+        .rank-d::before { background: #6b7280; }
+
+        .rank-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-sm);
+        }
 
         /* FAQ Section */
         .faq {
@@ -179,33 +221,90 @@
         }
 
         .faq-item {
-            margin-bottom: 1.5rem;
+            margin-bottom: var(--space-md);
+            padding: var(--space-md);
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .faq-item h3 {
-            font-size: 1.3rem;
-            color: var(--color-primary);
+            color: var(--primary);
+            margin-bottom: var(--space-xs);
+            font-size: 1.2rem;
         }
 
         /* Footer */
         .footer {
-            background: var(--color-text);
+            background: var(--text);
             color: white;
-            padding: 3rem 2rem;
+            padding: var(--space-lg) var(--container-padding);
             text-align: center;
         }
 
-        .footer p {
-            opacity: 0.8;
+        .footer-content {
+            max-width: var(--container-width);
+            margin: 0 auto;
         }
 
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-md);
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Loading State for iframe */
+        .game-container {
+            position: relative;
+        }
+
+        .game-container::before {
+            content: 'Loading game...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--text-light);
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
+            :root {
+                --container-padding: 1rem;
             }
 
-            .section h2 {
-                font-size: 2rem;
+            .game-frame {
+                height: 500px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rankings {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .rankings {
+                grid-template-columns: 1fr;
+            }
+
+            .game-frame {
+                height: 400px;
             }
         }
     </style>
@@ -213,121 +312,117 @@
 <body>
     <nav class="nav">
         <div class="nav-container">
-            <a href="/" class="logo">ReactionSpeedTest.com</a>
+            <a href="/" class="logo">
+                ReactionSpeedTest
+            </a>
         </div>
     </nav>
 
     <section class="hero">
         <h1>Test Your Reaction Speed</h1>
-        <p>Challenge yourself with our precision reaction time test. Measure your reflexes, compete with others, and track your improvement.</p>
+        <p>Challenge yourself with our precision reaction time test. Track your progress, compete with others, and improve your reflexes.</p>
     </section>
 
-    <main>
-        <section class="game-container">
-            <iframe src="https://reactionspeedtest.com/game.html" class="game-frame" title="Reaction Speed Test Game"></iframe>
-        </section>
+    <section class="game-section">
+        <div class="game-container">
+            <iframe src="/game.html" class="game-frame" title="Reaction Speed Test Game" loading="lazy"></iframe>
+        </div>
+    </section>
 
-        <section class="section section-alt">
-            <div class="section-container">
-                <h2>How It Works</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h3>Quick Reactions</h3>
-                        <p>Click on targets as fast as possible when they appear on your screen. Every millisecond counts!</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Time Challenge</h3>
-                        <p>Complete as many successful clicks as possible within the 30-second time limit.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Precision Scoring</h3>
-                        <p>Your performance is measured down to the millisecond, ensuring accurate results.</p>
-                    </div>
+    <section class="section">
+        <div class="section-container">
+            <h2>How It Works</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Start Testing</h3>
+                    <p>Click 'Start Game' to begin the challenge. The test runs for 30 seconds, giving you plenty of opportunities to demonstrate your speed.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Click Targets</h3>
+                    <p>Blue circles will appear randomly on screen. Click them as quickly as you can - every millisecond counts towards your final score!</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Get Rated</h3>
+                    <p>After 30 seconds, receive your rating from S to D based on both your speed and accuracy. Compare your results with others!</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section">
-            <div class="section-container">
-                <h2>Ranking System</h2>
-                <div class="rankings">
-                    <div class="rank-card rank-s">
-                        <h3>S Rank</h3>
-                        <p>45+ clicks</p>
-                        <p>Under 500ms</p>
-                        <p>Professional Level</p>
-                    </div>
-                    <div class="rank-card rank-a">
-                        <h3>A Rank</h3>
-                        <p>35-44 clicks</p>
-                        <p>Under 600ms</p>
-                        <p>Excellent</p>
-                    </div>
-                    <div class="rank-card rank-b">
-                        <h3>B Rank</h3>
-                        <p>25-34 clicks</p>
-                        <p>Under 700ms</p>
-                        <p>Great</p>
-                    </div>
-                    <div class="rank-card rank-c">
-                        <h3>C Rank</h3>
-                        <p>15-24 clicks</p>
-                        <p>Under 800ms</p>
-                        <p>Good</p>
-                    </div>
-                    <div class="rank-card rank-d">
-                        <h3>D Rank</h3>
-                        <p>0-14 clicks</p>
-                        <p>Over 800ms</p>
-                        <p>Practice More</p>
-                    </div>
+    <section class="section" style="background: var(--background-alt);">
+        <div class="section-container">
+            <h2>Ranking System</h2>
+            <div class="rankings">
+                <div class="rank-card rank-s">
+                    <h3>S Rank</h3>
+                    <p>45+ clicks</p>
+                    <p>Under 500ms</p>
+                    <p>Professional Level</p>
+                </div>
+                <div class="rank-card rank-a">
+                    <h3>A Rank</h3>
+                    <p>35-44 clicks</p>
+                    <p>Under 600ms</p>
+                    <p>Excellent</p>
+                </div>
+                <div class="rank-card rank-b">
+                    <h3>B Rank</h3>
+                    <p>25-34 clicks</p>
+                    <p>Under 700ms</p>
+                    <p>Great</p>
+                </div>
+                <div class="rank-card rank-c">
+                    <h3>C Rank</h3>
+                    <p>15-24 clicks</p>
+                    <p>Under 800ms</p>
+                    <p>Good</p>
+                </div>
+                <div class="rank-card rank-d">
+                    <h3>D Rank</h3>
+                    <p>0-14 clicks</p>
+                    <p>Over 800ms</p>
+                    <p>Keep Practicing</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section section-alt">
-            <div class="section-container">
-                <h2>Frequently Asked Questions</h2>
-                <div class="faq">
-                    <div class="faq-item">
-                        <h3>What is a good reaction time?</h3>
-                        <p>The average reaction time is between 200-250 milliseconds. Professional gamers and athletes often achieve times under 200ms.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>How can I improve my reaction time?</h3>
-                        <p>Regular practice, adequate sleep, and maintaining focus can help improve your reaction time. Professional gamers often practice for several hours daily.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h3>Why is reaction time important?</h3>
-                        <p>Quick reaction times are crucial for gaming, sports, driving, and many daily activities. They can be a measure of cognitive health and alertness.</p>
-                    </div>
+    <section class="section">
+        <div class="section-container">
+            <h2>Why Test Your Reaction Time?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Gaming Performance</h3>
+                    <p>Fast reaction times are crucial for competitive gaming. Top gamers typically have reaction times under 200ms.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Athletic Training</h3>
+                    <p>Athletes use reaction time tests to improve their performance and measure their progress over time.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Cognitive Health</h3>
+                    <p>Reaction time is a key indicator of cognitive health and can help monitor mental alertness.</p>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="section">
-            <div class="section-container">
-                <h2>Tips for Better Performance</h2>
-                <div class="feature-grid">
-                    <div class="feature-card">
-                        <h3>Stay Focused</h3>
-                        <p>Maintain concentration throughout the test. Avoid distractions in your environment.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Regular Practice</h3>
-                        <p>Like any skill, reaction time improves with practice. Try to test yourself daily.</p>
-                    </div>
-                    <div class="feature-card">
-                        <h3>Stay Healthy</h3>
-                        <p>Good sleep, proper nutrition, and regular exercise can all contribute to better reaction times.</p>
-                    </div>
+    <section class="section" style="background: var(--background-alt);">
+        <div class="section-container">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq">
+                <div class="faq-item">
+                    <h3>What is a good reaction time?</h3>
+                    <p>The average human reaction time is 250ms to visual stimuli. Professional gamers and athletes often achieve times between 150-200ms.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How can I improve my score?</h3>
+                    <p>Regular practice, proper rest, and maintaining focus during the test can help improve your scores. Try testing at different times of day to find your peak performance period.</p>
+                </div>
+                <div class="faq-item">
+                    <h3>How accurate is this test?</h3>
+                    <p>Our test measures reaction times with millisecond precision. However, results can be affected by your device's display lag and input latency.</p>
                 </div>
             </div>
-        </section>
-    </main>
-
-    <footer class="footer">
-        <p>© 2024 ReactionSpeedTest.com - Test your reflexes and improve your reaction time.</p>
-    </footer>
-</body>
-</html>
+        </div>
+    </section>
